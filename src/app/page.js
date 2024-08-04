@@ -3,7 +3,7 @@ import Header from "./components/header";
 
 export default function Home() {
   return (
-      <div className="max-w-600px mx-auto px-2 py-2" >
+      <div className="max-w-600px mx-auto px-2 py-2 font-monospace font-thin font" >
           <Header/>
           <main>
             <div className="ml-4 mt-4 border-l-2 pl-2 border-slate-800">

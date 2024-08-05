@@ -1,0 +1,30 @@
+import {getSortedPostsData} from '../lib/posts' ;
+//import { MDXRemote } from "next-mdx-remote";
+import {serialize} from 'next-mdx-remote/serialize' ;
+import MDXContent from "./MDXContent";
+
+
+export default async function LatestBlog() {
+
+    const allPostsData = getSortedPostsData() ;
+
+    const posts = await Promise.all(
+        allPostsData.map(async post => {
+            const mdxSource = await serialize(post.content);
+            return {...post, source:mdxSource} ;
+        })
+    );
+
+    const latest = posts[0] ;
+
+    return (    
+            <div>
+                <div className="w-5/6 mt-4 mb-5 text-wrap break-words border-2 p-3 pl-4 border-slate-600 border-opacity-40 rounded-lg mx-auto">
+                    <h2 className='font-bold text-lg'>{latest.title}</h2>
+                    <p className="pb-2 mb-2 border-b-2">{new Date(latest.date).toDateString()}</p>
+                    <MDXContent source={latest.source} />
+                </div>
+            </div>
+    );
+
+}
